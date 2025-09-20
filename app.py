@@ -12,6 +12,21 @@ app.secret_key = config.secret_key
 def index():
     return render_template("index.html")
 
+@app.route("/add_recipe")
+def add_recipe():
+    return render_template("add_recipe.html")
+
+@app.route("/create_recipe", methods=["POST"])
+def create_recipe():
+    name = request.form["name"]
+    classes = request.form["classes"]
+    instruction = request.form["instruction"]
+    user_id = session["user_id"]
+
+    sql = "INSERT INTO recipes (name, classes, instruction, user_id) VALUES (?, ?, ?, ?)"
+    db.execute(sql, [name, classes, instruction, user_id])
+    return redirect("/")
+
 @app.route("/register")
 def register():
     return render_template("register.html")
@@ -42,11 +57,14 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        sql = "SELECT password_hash FROM users WHERE username = ?"
-        password_hash = db.query(sql, [username])[0][0]
+        sql = "SELECT id, password_hash FROM users WHERE username = ?"
+        query = db.query(sql, [username])[0]
+        user_id = query["id"]
+        password_hash = query["password_hash"]
 
         if check_password_hash(password_hash, password):
             session["username"] = username
+            session["user_id"] = user_id
             return redirect("/")
         else:
             return "VIRHE: väärä tunnus tai salasana"
@@ -54,4 +72,5 @@ def login():
 @app.route("/logout")
 def logout():
     del session["username"]
+    del session["user_id"]
     return redirect("/")
