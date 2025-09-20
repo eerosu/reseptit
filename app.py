@@ -4,13 +4,21 @@ from flask import redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 import config
 import db
+import recipes
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    all_recipes = recipes.get_recipes()
+    return render_template("index.html", recipes=all_recipes)
+
+@app.route("/recipe/<int:recipe_id>")
+def show_recipe(recipe_id):
+    recipe = recipes.get_recipe(recipe_id)
+    return render_template("show_recipe.html", recipe=recipe)
+
 
 @app.route("/add_recipe")
 def add_recipe():
@@ -23,8 +31,7 @@ def create_recipe():
     instruction = request.form["instruction"]
     user_id = session["user_id"]
 
-    sql = "INSERT INTO recipes (name, classes, instruction, user_id) VALUES (?, ?, ?, ?)"
-    db.execute(sql, [name, classes, instruction, user_id])
+    recipes.add_recipe(name, classes, instruction, user_id)
     return redirect("/")
 
 @app.route("/register")
