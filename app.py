@@ -60,6 +60,16 @@ def remove_recipe(recipe_id):
         else:
             return redirect("/recipe/" + str(recipe_id))
 
+@app.route("/search_recipes")
+def search_recipes():
+    query = request.args.get("query")
+    if query:
+        search_results = recipes.search_recipes(query)
+    else:
+        query = ""
+        search_results = []
+    return render_template("search_recipes.html", query=query, search_results=search_results)
+
 @app.route("/register")
 def register():
     return render_template("register.html")
