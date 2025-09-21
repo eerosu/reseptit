@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Poista resepti</title>
+</head>
+
+<body>
+  <h1>Poista resepti</h1>
+  <p>Resepti: {{ recipe.name }}</p>
+  <p>Haluatko varmasti poistaa tämän reseptin pysyvästi?</p>
+  <form action="/remove_recipe/{{ recipe.id }}" method="post">
+    <input type="submit" name="remove" value="Poista resepti">
+    <input type="submit" name="back" value="Palaa takaisin">
+  </form>
+</body>
+
+</html>
