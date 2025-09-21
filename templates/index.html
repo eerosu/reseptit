@@ -20,7 +20,9 @@
     <a href="/logout">Kirjaudu ulos</a>
   </p>
   <p>
+  {% if session.username %}
     <a href="/add_recipe">Lisää resepti</a>
+  {% endif %}
     <a href="/search_recipes">Hae reseptejä</a>
   </p>
 
