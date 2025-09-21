@@ -15,9 +15,12 @@
   {% endif %}
 
   <p>
+  {% if not session.username %}
     <a href="/login">Kirjaudu sisään</a>
     <a href="/register">Luo tunnus</a>
+  {% else %}
     <a href="/logout">Kirjaudu ulos</a>
+  {% endif %}
   </p>
   <p>
   {% if session.username %}
