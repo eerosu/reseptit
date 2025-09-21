@@ -7,7 +7,7 @@ CREATE TABLE users (
 CREATE TABLE recipes (
     id INTEGER PRIMARY KEY,
     name TEXT,
-    classes TEXT,
+    ingredients TEXT,
     instruction TEXT,
     user_id INTEGER REFERENCES users
 );

@@ -7,8 +7,13 @@
 
 <body>
   <h1>{{ recipe.name }}</h1>
+  {% if session.user_id == recipe.user_id %}
   <p>
-    {{ recipe.classes }}
+    <a href="/edit_recipe/{{ recipe.id }}">Muokkaa</a>
+  </p>
+  {% endif %}
+  <p>
+    {{ recipe.ingredients }}
   </p>
   <p>
     {{ recipe.instruction }}
