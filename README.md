@@ -49,3 +49,9 @@ Avaa seuraava osoite selaimessa:
 ```
 http://127.0.0.1:5000/
 ```
+
+Kun haluat poistua virtuaaliympäristöstä kirjoita:
+
+```
+$ deactivate
+```
