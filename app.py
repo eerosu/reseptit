@@ -36,8 +36,14 @@ def create_recipe():
     require_login()
 
     name = request.form["name"]
+    if not name or len(name) > 60:
+        abort(403)
     ingredients = request.form["ingredients"]
+    if not ingredients or len(ingredients) > 1000:
+        abort(403)
     instruction = request.form["instruction"]
+    if not instruction or len(instruction) > 1000:
+        abort(403)
     user_id = session["user_id"]
     recipes.add_recipe(name, ingredients, instruction, user_id)
     return redirect("/")
