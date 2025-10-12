@@ -69,8 +69,14 @@ def update_recipe():
         abort(403)
 
     name = request.form["name"]
+    if not name or len(name) > 60:
+        abort(403)
     ingredients = request.form["ingredients"]
+    if not ingredients or len(ingredients) > 1000:
+        abort(403)
     instruction = request.form["instruction"]
+    if not instruction or len(instruction) > 1000:
+        abort(403)
     recipes.update_recipe(recipe_id, name, ingredients, instruction)
     return redirect("/recipe/" + str(recipe_id))
 
