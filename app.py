@@ -17,6 +17,8 @@ def index():
 @app.route("/recipe/<int:recipe_id>")
 def show_recipe(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
+    if not recipe:
+        abort(404)
     return render_template("show_recipe.html", recipe=recipe)
 
 
@@ -36,6 +38,8 @@ def create_recipe():
 @app.route("/edit_recipe/<int:recipe_id>")
 def edit_recipe(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
+    if not recipe:
+        abort(404)
     if recipe["user_id"] != session["user_id"]:
         abort(403)
     return render_template("edit_recipe.html", recipe=recipe)
@@ -44,6 +48,8 @@ def edit_recipe(recipe_id):
 def update_recipe():
     recipe_id = request.form["recipe_id"]
     recipe = recipes.get_recipe(recipe_id)
+    if not recipe:
+        abort(404)
     if recipe["user_id"] != session["user_id"]:
         abort(403)
 
@@ -56,6 +62,8 @@ def update_recipe():
 @app.route("/remove_recipe/<int:recipe_id>", methods=["GET", "POST"])
 def remove_recipe(recipe_id):
     recipe = recipes.get_recipe(recipe_id)
+    if not recipe:
+        abort(404)
     if recipe["user_id"] != session["user_id"]:
         abort(403)
 
