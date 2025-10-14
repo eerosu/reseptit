@@ -5,6 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import config
 import db
 import recipes
+import users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -24,6 +25,14 @@ def show_recipe(recipe_id):
     if not recipe:
         abort(404)
     return render_template("show_recipe.html", recipe=recipe)
+
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        abort(404)
+    recipes = users.get_recipes(user_id)
+    return render_template("show_user.html", user=user, recipes=recipes)
 
 
 @app.route("/add_recipe")
