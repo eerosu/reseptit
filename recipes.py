@@ -1,12 +1,23 @@
 import db
 
-def add_recipe(name, ingredients, instruction, user_id):
+def add_recipe(name, ingredients, instruction, user_id, classes):
     sql = "INSERT INTO recipes (name, ingredients, instruction, user_id) VALUES (?, ?, ?, ?)"
     db.execute(sql, [name, ingredients, instruction, user_id])
+
+    recipe_id = db.last_insert_id()
+
+    sql = "INSERT INTO recipe_classes (recipe_id, title, value) VALUES (?, ?, ?)"
+    for title, value in classes:
+        db.execute(sql, [recipe_id, title, value])
+
 
 def get_recipes():
     sql = "SELECT id, name FROM recipes ORDER BY id DESC"
     return db.query(sql)
+
+def get_classes(recipe_id):
+    sql = "SELECT title, value FROM recipe_classes WHERE recipe_id = ?"
+    return db.query(sql, [recipe_id])
 
 def get_recipe(recipe_id):
     sql = """SELECT recipes.name,

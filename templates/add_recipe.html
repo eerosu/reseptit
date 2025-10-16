@@ -10,7 +10,7 @@
   <form action="/create_recipe" method="post">
     <p>
       Reseptin nimi: <br />
-      <input type="text" name="name" maxlength="60" required/>
+      <input type="text" name="name" maxlength="60" required />
     </p>
     <p>
       Ainekset: <br />
@@ -19,6 +19,26 @@
     <p>
       Ohje: <br />
       <textarea name="instruction" rows="8" cols="60" maxlength="1000" required></textarea>
+    </p>
+    <p>
+      Ruokalajit: <br />
+      <select name="course">
+        <option value="">A</option>
+        <option value="Alkuruoat">Alkuruoat</option>
+        <option value="Pääruoat">Pääruoat</option>
+        <option value="Jälkiruoat">Jälkiruoat</option>
+        <option value="Salaatit">Salaatit</option>
+      </select>
+    </p>
+    <p>
+      Ruokavalio: <br />
+      <select name="diet">
+        <option value="">A</option>
+        <option value="Ei_rajoitteita">Ei rajoitteita</option>
+        <option value="Gluteeniton">Gluteeniton</option>
+        <option value="Maidoton">Maidoton</option>
+        <option value="Vegaaninen">Vegaaninen</option>
+      </select>
     </p>
     <input type="submit" value="Luo resepti" />
   </form>
