@@ -33,6 +33,15 @@
     <a href="/user/{{ recipe.user_id }}">{{ recipe.username }}</a>
   </p>
   <h3>Arviot</h3>
+  {% if average %}
+  <p>
+    Keskiarvo {{ average }} tähteä
+  </p>
+  {% else %}
+  <p>
+    Ei vielä arvioita
+  </p>
+  {% endif %}
   <ul>
     {% for rating in ratings %}
     <li>{{ rating.stars }}<br/>{{ rating.comments }} <br/><a href="/user/{{ rating.user_id }}">{{ rating.username }}</a></li>

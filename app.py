@@ -25,7 +25,8 @@ def show_recipe(recipe_id):
         abort(404)
     classes = recipes.get_classes(recipe_id)
     ratings = recipes.get_ratings(recipe_id)
-    return render_template("show_recipe.html", recipe=recipe, classes=classes, ratings=ratings)
+    average = recipes.get_average_rating(recipe_id)
+    return render_template("show_recipe.html", recipe=recipe, classes=classes, ratings=ratings, average=average)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):

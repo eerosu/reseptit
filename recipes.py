@@ -29,6 +29,11 @@ def get_ratings(recipe_id):
            ORDER BY ratings.id DESC"""
     return db.query(sql, [recipe_id])
 
+def get_average_rating(recipe_id):
+    sql = "SELECT ROUND(AVG(stars),1) FROM ratings WHERE recipe_id = ?"
+    average = db.query(sql, [recipe_id])[0][0]
+    return average
+
 def get_classes(recipe_id):
     sql = "SELECT title, value FROM recipe_classes WHERE recipe_id = ?"
     return db.query(sql, [recipe_id])
