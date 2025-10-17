@@ -10,10 +10,24 @@ def add_recipe(name, ingredients, instruction, user_id, classes):
     for title, value in classes:
         db.execute(sql, [recipe_id, title, value])
 
-
 def get_recipes():
     sql = "SELECT id, name FROM recipes ORDER BY id DESC"
     return db.query(sql)
+
+def add_rating(recipe_id, user_id, stars, comment):
+    sql = "INSERT INTO ratings (recipe_id, user_id, stars, comments) VALUES (?, ?, ?, ?)"
+    db.execute(sql, [recipe_id, user_id, stars, comment])
+
+def get_ratings(recipe_id):
+    sql = """SELECT ratings.stars,
+                    ratings.comments,
+                    users.id user_id,
+                    users.username
+           FROM ratings, users
+           WHERE ratings.recipe_id = ? AND
+                 ratings.user_id = users.id
+           ORDER BY ratings.id DESC"""
+    return db.query(sql, [recipe_id])
 
 def get_classes(recipe_id):
     sql = "SELECT title, value FROM recipe_classes WHERE recipe_id = ?"

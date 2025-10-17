@@ -24,7 +24,8 @@ def show_recipe(recipe_id):
     if not recipe:
         abort(404)
     classes = recipes.get_classes(recipe_id)
-    return render_template("show_recipe.html", recipe=recipe, classes=classes)
+    ratings = recipes.get_ratings(recipe_id)
+    return render_template("show_recipe.html", recipe=recipe, classes=classes, ratings=ratings)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
@@ -70,6 +71,22 @@ def create_recipe():
 
     recipes.add_recipe(name, ingredients, instruction, user_id, classes)
     return redirect("/")
+
+@app.route("/create_rating", methods=["POST"])
+def create_rating():
+    require_login()
+
+    recipe_id = request.form["recipe_id"]
+    if not recipe_id:
+        abort(403)
+
+    user_id = session["user_id"]
+
+    stars = request.form["rating"]
+    comment = request.form["comment"]
+
+    recipes.add_rating(recipe_id, user_id, stars, comment)
+    return redirect("/recipe/" + str(recipe_id))
 
 @app.route("/edit_recipe/<int:recipe_id>")
 def edit_recipe(recipe_id):

@@ -32,6 +32,43 @@
   <p>
     <a href="/user/{{ recipe.user_id }}">{{ recipe.username }}</a>
   </p>
+  <h3>Arviot</h3>
+  <ul>
+    {% for rating in ratings %}
+    <li>{{ rating.stars }}<br/>{{ rating.comments }} <br/><a href="/user/{{ rating.user_id }}">{{ rating.username }}</a></li>
+    {% endfor %}
+  </ul>
+  <h3>Arvostele</h3>
+  <form action="/create_rating" method="POST">
+    <div class="rating">
+      <label>
+        <input type="radio" name="rating" value="1">
+        1
+      </label>
+      <label>
+        <input type="radio" name="rating" value="2">
+        2
+      </label>
+      <label>
+        <input type="radio" name="rating" value="3">
+        3
+      </label>
+      <label>
+        <input type="radio" name="rating" value="4">
+        4
+      </label>
+      <label>
+        <input type="radio" name="rating" value="5">
+        5
+      </label>
+    </div>
+    <p>
+      Kommentoi reseptiä: <br />
+      <textarea name="comment" rows="8" cols="60" maxlength="1000" required></textarea>
+    </p>
+    <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+    <button type="submit">Lähetä arvio</button>
+  </form>
   <p>
     <a href="/">Takaisin</a>
   </p>
