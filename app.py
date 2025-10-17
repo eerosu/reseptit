@@ -56,11 +56,17 @@ def create_recipe():
         abort(403)
     user_id = session["user_id"]
 
+    all_classes = recipes.get_all_classes()
+
     classes = []
     for entry in request.form.getlist("classes"):
         if entry:
-            parts = entry.split(":")
-            classes.append((parts[0], parts[1]))
+            entry_title, entry_value = entry.split(":")
+            if entry_title not in all_classes:
+                abort(403)
+            if entry_value not in all_classes[entry_title]:
+                abort(403)
+            classes.append((entry_title, entry_value))
 
     recipes.add_recipe(name, ingredients, instruction, user_id, classes)
     return redirect("/")
@@ -101,11 +107,17 @@ def update_recipe():
     if not instruction or len(instruction) > 1000:
         abort(403)
 
+    all_classes = recipes.get_all_classes()
+
     classes = []
     for entry in request.form.getlist("classes"):
         if entry:
-            parts = entry.split(":")
-            classes.append((parts[0], parts[1]))
+            entry_title, entry_value = entry.split(":")
+            if entry_title not in all_classes:
+                abort(403)
+            if entry_value not in all_classes[entry_title]:
+                abort(403)
+            classes.append((entry_title, entry_value))
 
     recipes.update_recipe(recipe_id, name, ingredients, instruction, classes)
     return redirect("/recipe/" + str(recipe_id))
