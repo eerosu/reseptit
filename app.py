@@ -71,7 +71,9 @@ def create_recipe():
             classes.append((entry_title, entry_value))
 
     recipes.add_recipe(name, ingredients, instruction, user_id, classes)
-    return redirect("/")
+
+    recipe_id = db.last_insert_id()
+    return redirect("/recipe/" + str(recipe_id))
 
 @app.route("/create_rating", methods=["POST"])
 def create_rating():
