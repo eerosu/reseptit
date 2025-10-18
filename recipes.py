@@ -88,9 +88,12 @@ def remove_recipe(recipe_id):
     db.execute(sql, [recipe_id])
 
 def search_recipes(query):
-    sql = """SELECT id, name
-             FROM recipes
+    sql = """SELECT recipes.id, recipes.name, users.id user_id, users.username,
+                    COUNT(ratings.id) rating_count, ROUND(AVG(ratings.stars), 1) rating_average
+             FROM recipes JOIN users ON recipes.user_id = users.id
+                          LEFT JOIN ratings ON recipes.id = ratings.recipe_id
              WHERE name LIKE ? OR ingredients LIKE ?
-             ORDER BY id DESC"""
+             GROUP BY recipes.id
+             ORDER BY recipes.id DESC"""
     search = "%" + query + "%"
     return db.query(sql, [search, search])
