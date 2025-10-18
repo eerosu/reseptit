@@ -11,7 +11,12 @@ def add_recipe(name, ingredients, instruction, user_id, classes):
         db.execute(sql, [recipe_id, title, value])
 
 def get_recipes():
-    sql = "SELECT id, name FROM recipes ORDER BY id DESC"
+    sql = """SELECT recipes.id, recipes.name, users.id user_id, users.username,
+                    COUNT(ratings.id) rating_count, ROUND(AVG(ratings.stars), 1) rating_average
+             FROM recipes JOIN users ON recipes.user_id = users.id
+                          LEFT JOIN ratings ON recipes.id = ratings.recipe_id
+             GROUP BY recipes.id
+             ORDER BY recipes.id DESC"""
     return db.query(sql)
 
 def add_rating(recipe_id, user_id, stars, comment):
