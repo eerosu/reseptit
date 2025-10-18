@@ -47,6 +47,7 @@
   {% endfor %}
 </ul>
 <h3>Arvostele</h3>
+{% if session.user_id != recipe.user_id %}
 <form action="/create_rating" method="POST">
   <div class="rating">
     <label>
@@ -77,4 +78,5 @@
   <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
   <button type="submit">Lähetä arvio</button>
 </form>
+{% endif %}
 {% endblock %}

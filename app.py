@@ -5,6 +5,7 @@ import config
 import db
 import recipes
 import users
+import re
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -86,7 +87,11 @@ def create_rating():
     user_id = session["user_id"]
 
     stars = request.form["rating"]
+    if not re.search("^[1-5]$", stars):
+        abort(403)
     comment = request.form["comment"]
+    if not comment or len(comment) > 1000:
+        abort(403)
 
     recipes.add_rating(recipe_id, user_id, stars, comment)
     return redirect("/recipe/" + str(recipe_id))
