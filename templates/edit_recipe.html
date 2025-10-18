@@ -1,43 +1,38 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Muokkaa reseptiä</title>
-</head>
+{% block title %}Muokkaa reseptiä{% endblock %}
 
-<body>
-  <h1>Muokkaa reseptiä</h1>
-  <form action="/update_recipe" method="post">
-    <p>
-      Reseptin nimi: <br />
-      <input type="text" name="name" value="{{ recipe.name }}" maxlength="60" required/>
-    </p>
-    <p>
-      Ainekset: <br />
-      <textarea name="ingredients" rows="8" cols="60" maxlength="1000" required>{{ recipe.ingredients }}</textarea>
-    </p>
-    <p>
-      Ohje: <br />
-      <textarea name="instruction" rows="8" cols="60" maxlength="1000" required>{{ recipe.instruction }}</textarea>
-    </p>
-    <input type="hidden" name="recipe_id" value="{{ recipe.id }}" />
-    {% for class in classes %}
-    <p>
-      {{ class }}: <br />
-      <select name="classes">
-        <option value=""></option>
-      {% for option in classes[class] %}
-        {% if selected[class] == option %}
-        <option value="{{ class }}:{{ option }}" selected>{{ option }}</option>
-        {% else %}
-        <option value="{{ class }}:{{ option }}">{{ option }}</option>
-        {% endif %}
-      {% endfor %}
-      </select>
-    </p>
+{% block content %}
+<h2>Muokkaa reseptiä</h2>
+<form action="/update_recipe" method="post">
+  <p>
+    Reseptin nimi: <br />
+    <input type="text" name="name" value="{{ recipe.name }}" maxlength="60" required/>
+  </p>
+  <p>
+    Ainekset: <br />
+    <textarea name="ingredients" rows="8" cols="60" maxlength="1000" required>{{ recipe.ingredients }}</textarea>
+  </p>
+  <p>
+    Ohje: <br />
+    <textarea name="instruction" rows="8" cols="60" maxlength="1000" required>{{ recipe.instruction }}</textarea>
+  </p>
+  <input type="hidden" name="recipe_id" value="{{ recipe.id }}" />
+  {% for class in classes %}
+  <p>
+    {{ class }}: <br />
+    <select name="classes">
+      <option value=""></option>
+    {% for option in classes[class] %}
+      {% if selected[class] == option %}
+      <option value="{{ class }}:{{ option }}" selected>{{ option }}</option>
+      {% else %}
+      <option value="{{ class }}:{{ option }}">{{ option }}</option>
+      {% endif %}
     {% endfor %}
-    <input type="submit" value="Päivitä resepti" />
-  </form>
-</body>
-
-</html>
+    </select>
+  </p>
+  {% endfor %}
+  <input type="submit" value="Päivitä resepti" />
+</form>
+{% endblock %}
