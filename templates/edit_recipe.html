@@ -3,7 +3,8 @@
 {% block title %}Muokkaa reseptiä{% endblock %}
 
 {% block content %}
-<h2>Muokkaa reseptiä</h2>
+<h2>{{ recipe.name }}</h2>
+<h3>Muokkaa reseptiä</h3>
 <form action="/update_recipe" method="post">
   <p>
     Reseptin nimi: <br />
@@ -34,5 +35,6 @@
   </p>
   {% endfor %}
   <input type="submit" value="Päivitä resepti" />
+  <input type="submit" name="back" value="Peruuta">
 </form>
 {% endblock %}
