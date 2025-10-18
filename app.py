@@ -1,4 +1,5 @@
 import sqlite3
+import secrets
 from flask import Flask
 from flask import abort, flash, redirect, render_template, request, session
 import config
@@ -12,6 +13,12 @@ app.secret_key = config.secret_key
 
 def require_login():
     if "user_id" not in session:
+        abort(403)
+
+def check_csrf():
+    if "csrf_token" not in request.form:
+        abort(403)
+    if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
 
 @app.route("/")
@@ -47,6 +54,7 @@ def add_recipe():
 @app.route("/create_recipe", methods=["POST"])
 def create_recipe():
     require_login()
+    check_csrf()
 
     name = request.form["name"]
     if not name or len(name) > 60:
@@ -79,6 +87,7 @@ def create_recipe():
 @app.route("/create_rating", methods=["POST"])
 def create_rating():
     require_login()
+    check_csrf()
 
     recipe_id = request.form["recipe_id"]
     if not recipe_id:
@@ -115,6 +124,8 @@ def edit_recipe(recipe_id):
 @app.route("/update_recipe", methods=["POST"])
 def update_recipe():
     require_login()
+    check_csrf()
+
     recipe_id = request.form["recipe_id"]
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
@@ -150,6 +161,7 @@ def update_recipe():
 @app.route("/remove_recipe/<int:recipe_id>", methods=["GET", "POST"])
 def remove_recipe(recipe_id):
     require_login()
+
     recipe = recipes.get_recipe(recipe_id)
     if not recipe:
         abort(404)
@@ -160,6 +172,7 @@ def remove_recipe(recipe_id):
         return render_template("remove_recipe.html", recipe=recipe)
 
     if request.method == "POST":
+        check_csrf()
         if "remove" in request.form:
             recipes.remove_recipe(recipe_id)
             return redirect("/")
@@ -210,6 +223,7 @@ def login():
         if user_id:
             session["username"] = username
             session["user_id"] = user_id
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
             flash("VIRHE: väärä tunnus tai salasana")

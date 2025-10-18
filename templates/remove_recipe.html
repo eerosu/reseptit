@@ -7,6 +7,7 @@
 <h3>Reseptin poisto</h3>
 <p>Haluatko varmasti poistaa tämän reseptin pysyvästi?</p>
 <form action="/remove_recipe/{{ recipe.id }}" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" name="remove" value="Poista resepti">
   <input type="submit" name="back" value="Peruuta">
 </form>

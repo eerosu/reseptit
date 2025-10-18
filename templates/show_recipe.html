@@ -76,6 +76,7 @@
     <textarea name="comment" rows="8" cols="60" maxlength="1000" required></textarea>
   </p>
   <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <button type="submit">Lähetä arvio</button>
 </form>
 {% endif %}
