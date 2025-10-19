@@ -5,11 +5,11 @@
 {% block content %}
 <h2>Käyttäjä {{ user.username }}</h2>
 <p>
-  Käyttäjällä on yhteensä {{ recipes | count }} reseptiä.
+  Käyttäjällä on yhteensä {{ user_recipes | count }} reseptiä.
 </p>
 <h3>Reseptit</h3>
 <ul>
-{% for recipe in recipes %}
+{% for recipe in user_recipes %}
 <li><a href="/recipe/{{ recipe.id }}">{{ recipe.name }}</a></li>
 {% endfor %}
 </ul>

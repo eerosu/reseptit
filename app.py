@@ -46,8 +46,8 @@ def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
         abort(404)
-    recipes = users.get_recipes(user_id)
-    return render_template("show_user.html", user=user, recipes=recipes)
+    user_recipes = users.get_recipes(user_id)
+    return render_template("show_user.html", user=user, user_recipes=user_recipes)
 
 
 @app.route("/add_recipe")
