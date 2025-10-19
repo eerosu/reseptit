@@ -38,7 +38,8 @@ def show_recipe(recipe_id):
     classes = recipes.get_classes(recipe_id)
     ratings = recipes.get_ratings(recipe_id)
     average = recipes.get_average_rating(recipe_id)
-    return render_template("show_recipe.html", recipe=recipe, classes=classes, ratings=ratings, average=average)
+    return render_template("show_recipe.html", recipe=recipe, classes=classes,
+                           ratings=ratings, average=average)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
