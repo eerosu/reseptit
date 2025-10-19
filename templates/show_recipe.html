@@ -72,8 +72,8 @@
     </label>
   </div>
   <p>
-    Kommentoi reseptiä: <br />
-    <textarea name="comment" rows="8" cols="60" maxlength="1000" required></textarea>
+    <label for="comment">Kommentoi reseptiä</label>: <br />
+    <textarea name="comment" id="comment" rows="8" cols="60" maxlength="1000" required></textarea>
   </p>
   <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
