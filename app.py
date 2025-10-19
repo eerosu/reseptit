@@ -7,6 +7,7 @@ import db
 import recipes
 import users
 import re
+import markupsafe
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -235,3 +236,9 @@ def logout():
         del session["username"]
         del session["user_id"]
     return redirect("/")
+
+@app.template_filter()
+def show_lines(content):
+    content = str(markupsafe.escape(content))
+    content = content.replace("\n", "<br />")
+    return markupsafe.Markup(content)
