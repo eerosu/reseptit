@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 
-{% block title %}Tunnuksen luonti{% endblock %}
+{% block title %}Käyttäjätunnuksen luonti{% endblock %}
 
 {% block content %}
-<h2>Tunnuksen luonti</h2>
+<h2>Käyttäjätunnuksen luonti</h2>
 <form action="/create" method="post">
   <p>
     <label for="username">Käyttäjätunnus</label>: <br />
@@ -17,6 +17,6 @@
     <label for="password2">Salasana uudestaan</label>: <br />
     <input type="password" name="password2" id="password2" />
   </p>
-  <input type="submit" value="Luo tunnus" />
+  <input type="submit" value="Luo käyttäjätunnus" />
 </form>
 {% endblock %}
