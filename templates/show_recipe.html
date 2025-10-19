@@ -47,37 +47,43 @@
   {% endfor %}
 </ul>
 <h3>Arvostele</h3>
-{% if session.user_id != recipe.user_id %}
-<form action="/create_rating" method="POST">
-  <div class="rating">
-    <label>
-      <input type="radio" name="rating" value="1">
-      1
-    </label>
-    <label>
-      <input type="radio" name="rating" value="2">
-      2
-    </label>
-    <label>
-      <input type="radio" name="rating" value="3">
-      3
-    </label>
-    <label>
-      <input type="radio" name="rating" value="4">
-      4
-    </label>
-    <label>
-      <input type="radio" name="rating" value="5">
-      5
-    </label>
-  </div>
-  <p>
-    <label for="comment">Kommentoi reseptiä</label>: <br />
-    <textarea name="comment" id="comment" rows="8" cols="60" maxlength="1000" required></textarea>
-  </p>
-  <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-  <button type="submit">Lähetä arvio</button>
-</form>
+{% if not session.user_id %}
+<p>
+  Kirjaudu sisään kommentoidaksesi.
+</p>
+{% else %}
+  {% if session.user_id != recipe.user_id %}
+  <form action="/create_rating" method="POST">
+    <div class="rating">
+      <label>
+        <input type="radio" name="rating" value="1">
+        1
+      </label>
+      <label>
+        <input type="radio" name="rating" value="2">
+        2
+      </label>
+      <label>
+        <input type="radio" name="rating" value="3">
+        3
+      </label>
+      <label>
+        <input type="radio" name="rating" value="4">
+        4
+      </label>
+      <label>
+        <input type="radio" name="rating" value="5">
+        5
+      </label>
+    </div>
+    <p>
+      <label for="comment">Kommentoi reseptiä</label>: <br />
+      <textarea name="comment" id="comment" rows="8" cols="60" maxlength="1000" required></textarea>
+    </p>
+    <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <button type="submit">Lähetä arvio</button>
+  </form>
+  {% endif %}
 {% endif %}
 {% endblock %}
